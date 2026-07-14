@@ -5,27 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>PTA 2026 – Pramuka Berjiwa Disiplin & Berkarya</title>
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=MedievalSharp&family=Cinzel:wght@400;700;900&display=swap');
 
         :root {
-            --gold: #d4af37;
-            --gold-light: #f5e08a;
-            --gold-dark: #a67c1e;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --red: #8b0000;
-            --red-bright: #cc1122;
-            --dark: #0c0a08;
-            --dark-warm: #1a1410;
-            --cream: #f5efe0;
-            --text-gold: #e8d5a3;
-            --shadow-gold: 0 0 40px rgba(212, 175, 55, 0.15);
+            --gold: #c9a84c;
+            --gold-light: #f0d68a;
+            --gold-dark: #a07d32;
+            --gold-glow: rgba(201, 168, 76, 0.3);
+            --red: #7a1f1f;
+            --red-bright: #b33a3a;
+            --dark: #0d0b09;
+            --dark-warm: #1a1510;
+            --cream: #ede5d3;
+            --text-gold: #dcc58a;
+            --shadow-gold: 0 0 60px rgba(201, 168, 76, 0.12);
         }
 
         html {
@@ -33,7 +35,7 @@
         }
 
         body {
-            font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+            font-family: 'Cinzel', 'Playfair Display', 'Cormorant Garamond', serif;
             background: var(--dark);
             color: var(--cream);
             min-height: 100vh;
@@ -41,51 +43,56 @@
             position: relative;
         }
 
-        /* ===== BACKGROUND LAYER ===== */
+        /* ============================================================
+           BACKGROUND LAYER – tekstur vintage + gradasi
+           ============================================================ */
         #bg-layer {
             position: fixed;
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(ellipse at 30% 20%, rgba(60, 40, 20, 0.6) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(40, 30, 15, 0.5) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(20, 15, 10, 0.9) 0%, #0c0a08 100%);
+                radial-gradient(ellipse at 30% 20%, rgba(60, 40, 20, 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(40, 30, 15, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(10, 8, 6, 0.95) 0%, #0d0b09 100%);
             pointer-events: none;
         }
 
-        /* tekstur kain / dinding tua */
+        /* tekstur kertas tua / kain */
         #bg-texture {
             position: fixed;
             inset: 0;
             z-index: 0;
             background-image:
-                repeating-linear-gradient(45deg, rgba(255, 215, 150, 0.01) 0px, rgba(255, 215, 150, 0.01) 2px, transparent 2px, transparent 6px),
-                repeating-linear-gradient(-45deg, rgba(255, 215, 150, 0.01) 0px, rgba(255, 215, 150, 0.01) 2px, transparent 2px, transparent 6px);
+                repeating-linear-gradient(45deg, rgba(201, 168, 76, 0.015) 0px, rgba(201, 168, 76, 0.015) 2px, transparent 2px, transparent 8px),
+                repeating-linear-gradient(-45deg, rgba(201, 168, 76, 0.015) 0px, rgba(201, 168, 76, 0.015) 2px, transparent 2px, transparent 8px),
+                radial-gradient(circle at 20% 30%, rgba(201, 168, 76, 0.02) 0%, transparent 40%);
             pointer-events: none;
         }
 
-        /* ===== VOLUMETRIC LIGHT ===== */
+        /* cahaya volumetric */
         #volumetric-light {
             position: fixed;
             inset: 0;
             z-index: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(201, 168, 76, 0.06) 0%, transparent 60%);
             pointer-events: none;
-            animation: pulseLight 8s ease-in-out infinite alternate;
+            animation: pulseLight 10s ease-in-out infinite alternate;
         }
 
         @keyframes pulseLight {
             0% {
-                opacity: 0.6;
+                opacity: 0.5;
                 transform: scale(1);
             }
             100% {
                 opacity: 1;
-                transform: scale(1.05);
+                transform: scale(1.04);
             }
         }
 
-        /* ===== DUST PARTICLES (canvas) ===== */
+        /* ============================================================
+           DUST PARTICLES (canvas)
+           ============================================================ */
         #dust-canvas {
             position: fixed;
             inset: 0;
@@ -93,53 +100,53 @@
             pointer-events: none;
         }
 
-        /* ===== STEAMPUNK GEARS (background) ===== */
+        /* ============================================================
+           STEAMPUNK GEARS
+           ============================================================ */
         .gear-bg {
             position: fixed;
             z-index: 0;
-            opacity: 0.12;
+            opacity: 0.08;
             pointer-events: none;
-            animation: spinGear 60s linear infinite;
+            animation: spinGear 70s linear infinite;
         }
-
         .gear-bg svg {
             width: 100%;
             height: 100%;
         }
-
         .gear-bg.g1 {
-            width: 160px;
-            height: 160px;
-            bottom: 8%;
-            left: 3%;
-            animation-duration: 80s;
-            opacity: 0.10;
+            width: 180px;
+            height: 180px;
+            bottom: 5%;
+            left: 2%;
+            animation-duration: 90s;
+            opacity: 0.06;
         }
         .gear-bg.g2 {
-            width: 120px;
-            height: 120px;
-            top: 12%;
-            right: 2%;
-            animation-duration: 60s;
+            width: 140px;
+            height: 140px;
+            top: 8%;
+            right: 1%;
+            animation-duration: 70s;
             animation-direction: reverse;
-            opacity: 0.08;
+            opacity: 0.05;
         }
         .gear-bg.g3 {
-            width: 100px;
-            height: 100px;
-            bottom: 20%;
-            right: 5%;
-            animation-duration: 70s;
-            opacity: 0.07;
+            width: 110px;
+            height: 110px;
+            bottom: 22%;
+            right: 3%;
+            animation-duration: 80s;
+            opacity: 0.04;
         }
         .gear-bg.g4 {
-            width: 80px;
-            height: 80px;
-            top: 40%;
+            width: 90px;
+            height: 90px;
+            top: 45%;
             left: 1%;
-            animation-duration: 50s;
+            animation-duration: 60s;
             animation-direction: reverse;
-            opacity: 0.06;
+            opacity: 0.04;
         }
 
         @keyframes spinGear {
@@ -151,63 +158,58 @@
             }
         }
 
-        /* ===== ROMAN CLOCKS (background) ===== */
+        /* ============================================================
+           ROMAN CLOCKS (background)
+           ============================================================ */
         .clock-bg {
             position: fixed;
             z-index: 0;
-            opacity: 0.10;
+            opacity: 0.08;
             pointer-events: none;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Cinzel', serif;
             color: var(--gold);
             text-align: center;
-            line-height: 1;
         }
-
-        .clock-bg .roman-num {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            font-size: 14px;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
         .clock-bg .clock-face {
-            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border: 1.5px solid rgba(201, 168, 76, 0.15);
             border-radius: 50%;
-            padding: 10px 8px;
-            width: 80px;
-            height: 80px;
+            padding: 8px 6px;
+            width: 72px;
+            height: 72px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(12, 10, 8, 0.5);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.05);
+            background: rgba(10, 8, 6, 0.4);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.03);
         }
-
-        .clock-bg .clock-face .roman-num {
-            font-size: 11px;
+        .clock-bg .roman-num {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1px;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            font-weight: 700;
         }
-        .clock-bg .clock-face .roman-num span {
-            width: 14px;
+        .clock-bg .roman-num span {
+            width: 12px;
             text-align: center;
         }
-
         .clock-bg.c1 {
-            bottom: 5%;
-            left: 5%;
+            bottom: 3%;
+            left: 4%;
         }
         .clock-bg.c2 {
-            top: 8%;
-            right: 4%;
-        }
-        .clock-bg.c3 {
-            bottom: 18%;
+            top: 6%;
             right: 3%;
         }
+        .clock-bg.c3 {
+            bottom: 20%;
+            right: 2%;
+        }
 
-        /* ===== MAIN WRAPPER ===== */
+        /* ============================================================
+           MAIN WRAPPER
+           ============================================================ */
         .main-wrapper {
             position: relative;
             z-index: 2;
@@ -215,119 +217,124 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 16px 60px;
+            padding: 20px 16px 50px;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ============================================================
+           HERO SECTION – full vintage
+           ============================================================ */
         #hero {
             width: 100%;
-            max-width: 800px;
+            max-width: 860px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 20px;
+            padding-top: 10px;
             min-height: 100vh;
             justify-content: center;
+            position: relative;
         }
 
-        /* ===== TOP LOGO / ORNAMEN ===== */
+        /* ===== TOP ORNAMEN ===== */
         .hero-top {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
+            gap: 16px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
             justify-content: center;
-            font-size: clamp(11px, 2vw, 16px);
-            letter-spacing: 3px;
+            font-size: clamp(10px, 1.6vw, 14px);
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--text-gold);
-            opacity: 0.7;
+            opacity: 0.5;
             font-weight: 400;
+            font-family: 'Cinzel', serif;
         }
-
         .hero-top .divider {
-            width: 40px;
+            width: 50px;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
 
-        /* ===== FRAME (BINGKAI EMAS) ===== */
+        /* ===== FRAME UTAMA ===== */
         .frame-wrapper {
             position: relative;
             width: 100%;
-            max-width: 580px;
+            max-width: 620px;
             margin: 0 auto;
-            padding: 12px;
+            padding: 16px;
         }
 
-        /* efek glow luar */
+        /* glow luar */
         .frame-wrapper::before {
             content: '';
             position: absolute;
-            inset: -20px;
+            inset: -24px;
             border-radius: 50%;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
             pointer-events: none;
-            animation: glowPulse 4s ease-in-out infinite alternate;
+            animation: glowPulse 5s ease-in-out infinite alternate;
         }
 
         @keyframes glowPulse {
             0% {
-                opacity: 0.4;
-                transform: scale(0.98);
+                opacity: 0.3;
+                transform: scale(0.97);
             }
             100% {
                 opacity: 1;
-                transform: scale(1.02);
+                transform: scale(1.03);
             }
         }
 
-        /* bingkai oval */
+        /* ===== BINGKAI OVAL ===== */
         .frame-oval {
             position: relative;
-            aspect-ratio: 3 / 3.8;
+            aspect-ratio: 3 / 3.9;
             border-radius: 50% / 45%;
             background:
-                radial-gradient(ellipse at 30% 25%, rgba(245, 224, 138, 0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 75%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                linear-gradient(145deg, #1a1410 0%, #0c0a08 100%);
-            border: 6px solid transparent;
+                radial-gradient(ellipse at 30% 25%, rgba(245, 224, 138, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 75%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
+                linear-gradient(145deg, #1a1510 0%, #0d0b09 100%);
+            border: 8px solid transparent;
             box-shadow:
-                0 0 60px rgba(212, 175, 55, 0.12),
-                inset 0 0 80px rgba(212, 175, 55, 0.04),
-                0 20px 60px rgba(0, 0, 0, 0.7);
+                0 0 80px rgba(201, 168, 76, 0.08),
+                inset 0 0 100px rgba(201, 168, 76, 0.03),
+                0 20px 70px rgba(0, 0, 0, 0.7);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px 20px;
             text-align: center;
             overflow: visible;
         }
 
-        /* border emas 3D dengan pseudo */
+        /* border emas 3D dengan ornamen */
         .frame-oval::before {
             content: '';
             position: absolute;
-            inset: -8px;
+            inset: -10px;
             border-radius: 50% / 45%;
-            padding: 8px;
+            padding: 10px;
             background: conic-gradient(from 0deg,
-                    #a67c1e,
-                    #d4af37,
-                    #f5e08a,
-                    #d4af37,
-                    #a67c1e,
                     #7a5a1a,
-                    #a67c1e);
+                    #a07d32,
+                    #c9a84c,
+                    #f0d68a,
+                    #c9a84c,
+                    #a07d32,
+                    #7a5a1a,
+                    #5a3f12,
+                    #7a5a1a);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
-            animation: shimmerBorder 8s linear infinite;
+            animation: shimmerBorder 12s linear infinite;
         }
 
         @keyframes shimmerBorder {
@@ -335,45 +342,44 @@
                 filter: hue-rotate(0deg) brightness(1);
             }
             50% {
-                filter: hue-rotate(5deg) brightness(1.1);
+                filter: hue-rotate(4deg) brightness(1.08);
             }
             100% {
                 filter: hue-rotate(0deg) brightness(1);
             }
         }
 
-        /* ornamen sudut bingkai */
+        /* ornamen sudut – mirip gambar referensi */
         .frame-ornament {
             position: absolute;
-            width: 32px;
-            height: 32px;
-            opacity: 0.3;
+            width: 44px;
+            height: 44px;
+            opacity: 0.25;
             pointer-events: none;
         }
-        .frame-ornament.tl {
-            top: -6px;
-            left: -6px;
-        }
-        .frame-ornament.tr {
-            top: -6px;
-            right: -6px;
-            transform: scaleX(-1);
-        }
-        .frame-ornament.bl {
-            bottom: -6px;
-            left: -6px;
-            transform: scaleY(-1);
-        }
-        .frame-ornament.br {
-            bottom: -6px;
-            right: -6px;
-            transform: scale(-1, -1);
-        }
-
         .frame-ornament svg {
             width: 100%;
             height: 100%;
             fill: var(--gold);
+        }
+        .frame-ornament.tl {
+            top: -8px;
+            left: -8px;
+        }
+        .frame-ornament.tr {
+            top: -8px;
+            right: -8px;
+            transform: scaleX(-1);
+        }
+        .frame-ornament.bl {
+            bottom: -8px;
+            left: -8px;
+            transform: scaleY(-1);
+        }
+        .frame-ornament.br {
+            bottom: -8px;
+            right: -8px;
+            transform: scale(-1, -1);
         }
 
         /* ===== ISI FRAME ===== */
@@ -381,98 +387,97 @@
             position: relative;
             z-index: 2;
             width: 100%;
-            padding: 4px 6px;
+            padding: 4px 2px;
         }
 
         .frame-content .pta-title {
-            font-size: clamp(2.4rem, 12vw, 5.2rem);
+            font-size: clamp(2.8rem, 14vw, 5.6rem);
             font-weight: 900;
-            letter-spacing: 6px;
-            background: linear-gradient(180deg, #f5e08a 0%, #d4af37 40%, #a67c1e 70%, #7a5a1a 100%);
+            letter-spacing: 8px;
+            background: linear-gradient(180deg, #f0d68a 0%, #c9a84c 40%, #a07d32 70%, #7a5a1a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 60px rgba(212, 175, 55, 0.2);
+            text-shadow: 0 0 80px rgba(201, 168, 76, 0.15);
             line-height: 1;
-            margin-bottom: 4px;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cinzel', serif;
         }
 
         .frame-content .pta-year {
-            font-size: clamp(1rem, 4vw, 1.8rem);
+            font-size: clamp(1.2rem, 4.5vw, 2.2rem);
             font-weight: 400;
-            letter-spacing: 12px;
+            letter-spacing: 16px;
             color: var(--text-gold);
-            opacity: 0.5;
-            margin-top: -6px;
-            font-family: 'Cormorant Garamond', serif;
+            opacity: 0.4;
+            margin-top: -8px;
+            font-family: 'Cinzel', serif;
         }
 
         .frame-content .tagline {
-            font-size: clamp(0.7rem, 1.8vw, 1rem);
-            letter-spacing: 4px;
+            font-size: clamp(0.65rem, 1.6vw, 0.95rem);
+            letter-spacing: 5px;
             color: var(--text-gold);
-            opacity: 0.6;
-            margin-top: 6px;
+            opacity: 0.5;
+            margin-top: 8px;
             font-weight: 400;
             text-transform: uppercase;
-            font-family: 'Cormorant Garamond', serif;
-            border-top: 1px solid rgba(212, 175, 55, 0.15);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            padding: 6px 0;
+            font-family: 'Cinzel', serif;
+            border-top: 1px solid rgba(201, 168, 76, 0.12);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+            padding: 8px 0;
             display: inline-block;
         }
 
         .frame-content .ready-text {
-            font-size: clamp(1.6rem, 6vw, 3rem);
+            font-size: clamp(1.8rem, 7vw, 3.6rem);
             font-weight: 700;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             color: var(--cream);
-            margin-top: 8px;
-            text-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
-            font-family: 'Playfair Display', serif;
+            margin-top: 10px;
+            text-shadow: 0 0 50px rgba(201, 168, 76, 0.1);
+            font-family: 'Cinzel', serif;
             font-style: italic;
         }
 
         .frame-content .ready-text span {
             color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 0 40px rgba(201, 168, 76, 0.25);
         }
 
         .frame-content .date-hero {
             font-size: clamp(0.8rem, 2vw, 1.1rem);
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             color: var(--text-gold);
-            opacity: 0.5;
-            margin-top: 12px;
-            font-family: 'Cormorant Garamond', serif;
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
-            padding-top: 10px;
+            opacity: 0.4;
+            margin-top: 14px;
+            font-family: 'Cinzel', serif;
+            border-top: 1px solid rgba(201, 168, 76, 0.08);
+            padding-top: 12px;
         }
 
-        /* ===== TOPENG MASQUERADE (di atas bingkai) ===== */
-        .masquerade-top {
+        /* ===== TOPENG / KOMPAS – elemen ikonik di atas bingkai ===== */
+        .compass-top {
             position: absolute;
-            top: -42px;
+            top: -48px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 5;
-            width: clamp(60px, 18vw, 100px);
+            width: clamp(70px, 20vw, 110px);
             height: auto;
-            filter: drop-shadow(0 8px 30px rgba(212, 175, 55, 0.25));
-            animation: floatMask 6s ease-in-out infinite alternate;
+            filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.2));
+            animation: floatCompass 7s ease-in-out infinite alternate;
         }
 
-        @keyframes floatMask {
+        @keyframes floatCompass {
             0% {
-                transform: translateX(-50%) translateY(0px) rotate(-2deg);
+                transform: translateX(-50%) translateY(0px) rotate(-4deg);
             }
             100% {
-                transform: translateX(-50%) translateY(-6px) rotate(2deg);
+                transform: translateX(-50%) translateY(-8px) rotate(4deg);
             }
         }
 
-        .masquerade-top svg {
+        .compass-top svg {
             width: 100%;
             height: auto;
             display: block;
@@ -482,74 +487,71 @@
         .ribbon-container {
             position: relative;
             width: 100%;
-            max-width: 640px;
-            margin: 10px auto 0;
-            height: 40px;
+            max-width: 680px;
+            margin: 6px auto 0;
+            height: 44px;
             overflow: visible;
             z-index: 3;
         }
-
         .ribbon-svg {
             width: 100%;
             height: 60px;
             display: block;
-            filter: drop-shadow(0 4px 20px rgba(139, 0, 0, 0.3));
+            filter: drop-shadow(0 4px 24px rgba(122, 31, 31, 0.25));
         }
 
-        /* ===== ENTER BUTTON (scroll trigger) ===== */
+        /* ===== ENTER BUTTON ===== */
         .enter-btn {
-            margin-top: 28px;
+            margin-top: 30px;
             background: transparent;
-            border: 1.5px solid rgba(212, 175, 55, 0.3);
+            border: 1.5px solid rgba(201, 168, 76, 0.25);
             color: var(--text-gold);
-            padding: 10px 36px;
-            font-family: 'Cormorant Garamond', serif;
+            padding: 12px 44px;
+            font-family: 'Cinzel', serif;
             font-size: clamp(0.9rem, 2vw, 1.1rem);
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.5s ease;
             position: relative;
-            background: rgba(212, 175, 55, 0.04);
+            background: rgba(201, 168, 76, 0.03);
             border-radius: 2px;
             backdrop-filter: blur(4px);
         }
-
         .enter-btn:hover {
-            background: rgba(212, 175, 55, 0.10);
+            background: rgba(201, 168, 76, 0.08);
             border-color: var(--gold);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.08);
+            box-shadow: 0 0 50px rgba(201, 168, 76, 0.06);
             transform: translateY(-2px);
         }
-
         .enter-btn::after {
             content: '↓';
             display: inline-block;
-            margin-left: 10px;
-            animation: bounceArrow 2s ease-in-out infinite;
+            margin-left: 14px;
+            animation: bounceArrow 2.4s ease-in-out infinite;
         }
-
         @keyframes bounceArrow {
             0%,
             100% {
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(4px);
+                transform: translateY(5px);
             }
         }
 
-        /* ===== MENU SECTION ===== */
+        /* ============================================================
+           MENU SECTION
+           ============================================================ */
         #menu-section {
             width: 100%;
-            max-width: 720px;
-            margin: 60px auto 40px;
+            max-width: 800px;
+            margin: 50px auto 30px;
             padding: 0 12px;
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
         #menu-section.visible {
             opacity: 1;
             transform: translateY(0);
@@ -558,37 +560,35 @@
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 28px;
         }
-
         @media (min-width: 640px) {
             .menu-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
+                gap: 24px;
             }
         }
 
         .menu-card {
-            background: linear-gradient(145deg, rgba(26, 20, 16, 0.8), rgba(12, 10, 8, 0.9));
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            background: linear-gradient(145deg, rgba(26, 21, 16, 0.85), rgba(13, 11, 9, 0.95));
+            border: 1px solid rgba(201, 168, 76, 0.12);
             border-radius: 4px;
-            padding: 28px 20px 24px;
+            padding: 32px 18px 26px;
             text-align: center;
-            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(8px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
         }
-
         .menu-card::before {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 4px;
-            padding: 1px;
-            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.2), transparent 60%);
+            padding: 1.5px;
+            background: conic-gradient(from 0deg, transparent, rgba(201, 168, 76, 0.2), transparent 60%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -597,84 +597,77 @@
             opacity: 0;
             transition: opacity 0.6s ease;
         }
-
         .menu-card:hover::before {
             opacity: 1;
         }
-
         .menu-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.04);
+            transform: translateY(-6px);
+            border-color: rgba(201, 168, 76, 0.25);
+            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.6), 0 0 50px rgba(201, 168, 76, 0.03);
         }
-
         .menu-card .icon {
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             margin-bottom: 10px;
             display: block;
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.1));
+            filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.08));
         }
-
         .menu-card h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
             font-weight: 700;
             color: var(--text-gold);
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 4px;
         }
-
         .menu-card p {
             font-family: 'Cormorant Garamond', serif;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.25);
             letter-spacing: 1px;
         }
-
         .menu-card .card-glow {
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.025) 0%, transparent 60%);
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.6s ease;
         }
-
         .menu-card:hover .card-glow {
             opacity: 1;
         }
 
-        /* ===== CONTACT SECTION ===== */
+        /* ============================================================
+           CONTACT SECTION
+           ============================================================ */
         #contact-section {
             width: 100%;
-            max-width: 720px;
-            margin: 20px auto 30px;
+            max-width: 800px;
+            margin: 16px auto 30px;
             padding: 0 12px;
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
+            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.15s;
         }
-
         #contact-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
         .contact-card {
-            background: linear-gradient(145deg, rgba(26, 20, 16, 0.85), rgba(12, 10, 8, 0.95));
-            border: 1px solid rgba(212, 175, 55, 0.12);
+            background: linear-gradient(145deg, rgba(26, 21, 16, 0.88), rgba(13, 11, 9, 0.96));
+            border: 1px solid rgba(201, 168, 76, 0.10);
             border-radius: 4px;
-            padding: 32px 24px 28px;
+            padding: 34px 24px 30px;
             text-align: center;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(8px);
         }
-
         .contact-card::before {
             content: '';
             position: absolute;
@@ -683,115 +676,110 @@
             right: 0;
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.3;
+            opacity: 0.2;
         }
-
         .contact-card .contact-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cinzel', serif;
             font-size: clamp(1.4rem, 3.5vw, 2rem);
             font-weight: 700;
             color: var(--text-gold);
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 6px;
         }
-
         .contact-card .contact-sub {
             font-family: 'Cormorant Garamond', serif;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-size: 0.95rem;
             letter-spacing: 1px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            line-height: 1.6;
         }
-
         .contact-links {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
             align-items: center;
         }
-
         .contact-links .contact-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1rem;
+            gap: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
             text-decoration: none;
             transition: all 0.3s ease;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 2px;
             border: 1px solid transparent;
+            letter-spacing: 1px;
         }
-
         .contact-links .contact-item:hover {
             color: var(--text-gold);
-            border-color: rgba(212, 175, 55, 0.1);
-            background: rgba(212, 175, 55, 0.03);
+            border-color: rgba(201, 168, 76, 0.08);
+            background: rgba(201, 168, 76, 0.02);
         }
-
         .contact-links .contact-item .icon {
             font-size: 1.4rem;
-            width: 32px;
+            width: 34px;
             text-align: center;
-        }
-
-        .contact-links .contact-item .label {
-            letter-spacing: 1px;
         }
 
         .btn-wa {
             margin-top: 10px;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.15), rgba(37, 211, 102, 0.04));
-            border: 1px solid rgba(37, 211, 102, 0.2);
+            gap: 14px;
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.10), rgba(37, 211, 102, 0.02));
+            border: 1px solid rgba(37, 211, 102, 0.15);
             color: #25d366;
-            padding: 12px 32px;
+            padding: 14px 38px;
             border-radius: 4px;
             text-decoration: none;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             transition: all 0.4s ease;
-            box-shadow: 0 0 30px rgba(37, 211, 102, 0.04);
+            box-shadow: 0 0 40px rgba(37, 211, 102, 0.02);
         }
-
         .btn-wa:hover {
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.25), rgba(37, 211, 102, 0.08));
-            border-color: rgba(37, 211, 102, 0.4);
-            box-shadow: 0 0 50px rgba(37, 211, 102, 0.08);
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.18), rgba(37, 211, 102, 0.05));
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 0 60px rgba(37, 211, 102, 0.05);
             transform: translateY(-2px);
             color: #30d96a;
         }
-
         .btn-wa .icon {
             font-size: 1.6rem;
         }
 
-        /* ===== FOOTER ===== */
+        /* ============================================================
+           FOOTER
+           ============================================================ */
         .footer {
             width: 100%;
-            max-width: 720px;
+            max-width: 800px;
             text-align: center;
             padding: 30px 12px 10px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.12);
-            letter-spacing: 3px;
-            border-top: 1px solid rgba(212, 175, 55, 0.04);
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.08);
+            letter-spacing: 5px;
+            border-top: 1px solid rgba(201, 168, 76, 0.03);
             margin-top: 20px;
+            text-transform: uppercase;
         }
 
-        /* ===== MODAL / POPUP ===== */
+        /* ============================================================
+           MODAL
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 999;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -800,141 +788,136 @@
             pointer-events: none;
             transition: opacity 0.5s ease;
         }
-
         .modal-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
-
         .modal-box {
-            background: linear-gradient(145deg, #1a1410, #0c0a08);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            background: linear-gradient(145deg, #1a1510, #0d0b09);
+            border: 1px solid rgba(201, 168, 76, 0.12);
             border-radius: 4px;
-            padding: 40px 32px 32px;
+            padding: 42px 34px 34px;
             max-width: 420px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 24px 90px rgba(0, 0, 0, 0.8);
             transform: scale(0.95);
             transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
         }
-
         .modal-overlay.active .modal-box {
             transform: scale(1);
         }
-
         .modal-box .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 3.2rem;
+            margin-bottom: 12px;
             display: block;
         }
-
         .modal-box h3 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cinzel', serif;
             color: var(--text-gold);
             font-size: 1.3rem;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 8px;
         }
-
         .modal-box p {
             font-family: 'Cormorant Garamond', serif;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             line-height: 1.6;
         }
-
         .modal-box .modal-close {
             background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(201, 168, 76, 0.15);
             color: var(--text-gold);
-            padding: 8px 32px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
+            padding: 10px 36px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
             cursor: pointer;
             transition: all 0.3s ease;
             border-radius: 2px;
         }
-
         .modal-box .modal-close:hover {
-            background: rgba(212, 175, 55, 0.06);
+            background: rgba(201, 168, 76, 0.04);
             border-color: var(--gold);
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 480px) {
             .main-wrapper {
-                padding: 12px 10px 40px;
+                padding: 12px 10px 30px;
             }
             .frame-wrapper {
-                padding: 8px;
+                padding: 10px;
             }
             .frame-oval {
-                border-width: 4px;
-                padding: 14px;
+                border-width: 5px;
+                padding: 16px 12px;
             }
             .frame-oval::before {
-                inset: -5px;
-                padding: 5px;
+                inset: -6px;
+                padding: 6px;
             }
-            .masquerade-top {
-                top: -32px;
+            .compass-top {
+                top: -34px;
                 width: 50px;
             }
             .frame-ornament {
-                width: 20px;
-                height: 20px;
+                width: 28px;
+                height: 28px;
             }
             .frame-ornament.tl {
-                top: -4px;
-                left: -4px;
+                top: -5px;
+                left: -5px;
             }
             .frame-ornament.tr {
-                top: -4px;
-                right: -4px;
+                top: -5px;
+                right: -5px;
             }
             .frame-ornament.bl {
-                bottom: -4px;
-                left: -4px;
+                bottom: -5px;
+                left: -5px;
             }
             .frame-ornament.br {
-                bottom: -4px;
-                right: -4px;
+                bottom: -5px;
+                right: -5px;
             }
             .ribbon-container {
                 height: 30px;
             }
             .ribbon-svg {
-                height: 44px;
+                height: 42px;
             }
             .enter-btn {
-                padding: 8px 24px;
-                font-size: 0.8rem;
+                padding: 10px 28px;
+                font-size: 0.75rem;
+                letter-spacing: 5px;
             }
             .menu-card {
-                padding: 20px 14px 18px;
+                padding: 22px 14px 20px;
             }
             .contact-card {
                 padding: 24px 16px 22px;
             }
             .btn-wa {
-                padding: 10px 22px;
-                font-size: 0.95rem;
+                padding: 12px 24px;
+                font-size: 0.9rem;
             }
             .clock-bg .clock-face {
-                width: 56px;
-                height: 56px;
-                padding: 6px;
+                width: 50px;
+                height: 50px;
+                padding: 4px;
             }
-            .clock-bg .clock-face .roman-num {
-                font-size: 8px;
+            .clock-bg .roman-num {
+                font-size: 7px;
                 gap: 1px;
             }
-            .clock-bg .clock-face .roman-num span {
-                width: 10px;
+            .clock-bg .roman-num span {
+                width: 9px;
             }
             .gear-bg.g1 {
                 width: 100px;
@@ -956,135 +939,88 @@
 
         @media (max-width: 380px) {
             .frame-content .pta-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                letter-spacing: 4px;
             }
             .frame-content .ready-text {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
+                letter-spacing: 4px;
             }
             .hero-top {
-                font-size: 9px;
-                gap: 8px;
+                font-size: 8px;
+                gap: 6px;
+                letter-spacing: 2px;
             }
             .hero-top .divider {
-                width: 24px;
+                width: 20px;
             }
         }
 
-        /* ===== SCROLL INDICATOR ===== */
+        /* ============================================================
+           SCROLL HINT
+           ============================================================ */
         .scroll-hint {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(212, 175, 55, 0.15);
+            color: rgba(201, 168, 76, 0.12);
             font-size: 1.8rem;
-            animation: bounceArrow 2s ease-in-out infinite;
+            animation: bounceArrow 2.4s ease-in-out infinite;
             pointer-events: none;
         }
 
-        /* ===== UTILITY ===== */
+        /* utility */
         .text-gold {
             color: var(--gold);
         }
         .text-glow {
-            text-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
+            text-shadow: 0 0 50px rgba(201, 168, 76, 0.08);
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== BACKGROUND LAYERS ===== -->
+    <!-- ============================================================
+    BACKGROUND
+    ============================================================ -->
     <div id="bg-layer"></div>
     <div id="bg-texture"></div>
     <div id="volumetric-light"></div>
     <canvas id="dust-canvas"></canvas>
 
-    <!-- ===== STEAMPUNK GEARS ===== -->
+    <!-- ============================================================
+    STEAMPUNK GEARS
+    ============================================================ -->
     <div class="gear-bg g1">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.3"/>
-            <circle cx="50" cy="50" r="28" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.2"/>
-            <circle cx="50" cy="50" r="10" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.2"/>
-            <g stroke="#d4af37" stroke-width="2" opacity="0.2">
-                <line x1="50" y1="8" x2="50" y2="20"/>
-                <line x1="50" y1="80" x2="50" y2="92"/>
-                <line x1="8" y1="50" x2="20" y2="50"/>
-                <line x1="80" y1="50" x2="92" y2="50"/>
-                <line x1="20" y1="20" x2="28" y2="28"/>
-                <line x1="72" y1="72" x2="80" y2="80"/>
-                <line x1="20" y1="80" x2="28" y2="72"/>
-                <line x1="72" y1="28" x2="80" y2="20"/>
-            </g>
-        </svg>
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#c9a84c" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="28" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><circle cx="50" cy="50" r="10" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><g stroke="#c9a84c" stroke-width="2" opacity="0.2"><line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/><line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/><line x1="20" y1="20" x2="28" y2="28"/><line x1="72" y1="72" x2="80" y2="80"/><line x1="20" y1="80" x2="28" y2="72"/><line x1="72" y1="28" x2="80" y2="20"/></g></svg>
     </div>
     <div class="gear-bg g2">
-        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="30" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.25"/>
-            <circle cx="40" cy="40" r="20" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.15"/>
-            <circle cx="40" cy="40" r="8" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.15"/>
-            <g stroke="#d4af37" stroke-width="1.5" opacity="0.15">
-                <line x1="40" y1="8" x2="40" y2="16"/>
-                <line x1="40" y1="64" x2="40" y2="72"/>
-                <line x1="8" y1="40" x2="16" y2="40"/>
-                <line x1="64" y1="40" x2="72" y2="40"/>
-                <line x1="18" y1="18" x2="24" y2="24"/>
-                <line x1="56" y1="56" x2="62" y2="62"/>
-                <line x1="18" y1="62" x2="24" y2="56"/>
-                <line x1="56" y1="24" x2="62" y2="18"/>
-            </g>
-        </svg>
+        <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="30" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.25"/><circle cx="40" cy="40" r="20" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.15"/><circle cx="40" cy="40" r="8" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.15"/><g stroke="#c9a84c" stroke-width="1.5" opacity="0.15"><line x1="40" y1="8" x2="40" y2="16"/><line x1="40" y1="64" x2="40" y2="72"/><line x1="8" y1="40" x2="16" y2="40"/><line x1="64" y1="40" x2="72" y2="40"/><line x1="18" y1="18" x2="24" y2="24"/><line x1="56" y1="56" x2="62" y2="62"/><line x1="18" y1="62" x2="24" y2="56"/><line x1="56" y1="24" x2="62" y2="18"/></g></svg>
     </div>
     <div class="gear-bg g3">
-        <svg viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="35" cy="35" r="26" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.2"/>
-            <circle cx="35" cy="35" r="16" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.12"/>
-            <circle cx="35" cy="35" r="7" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.12"/>
-            <g stroke="#d4af37" stroke-width="1.5" opacity="0.12">
-                <line x1="35" y1="7" x2="35" y2="14"/>
-                <line x1="35" y1="56" x2="35" y2="63"/>
-                <line x1="7" y1="35" x2="14" y2="35"/>
-                <line x1="56" y1="35" x2="63" y2="35"/>
-            </g>
-        </svg>
+        <svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="26" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><circle cx="35" cy="35" r="16" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.12"/><circle cx="35" cy="35" r="7" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.12"/><g stroke="#c9a84c" stroke-width="1.5" opacity="0.12"><line x1="35" y1="7" x2="35" y2="14"/><line x1="35" y1="56" x2="35" y2="63"/><line x1="7" y1="35" x2="14" y2="35"/><line x1="56" y1="35" x2="63" y2="35"/></g></svg>
     </div>
     <div class="gear-bg g4">
-        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="30" cy="30" r="22" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.15"/>
-            <circle cx="30" cy="30" r="14" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.10"/>
-            <circle cx="30" cy="30" r="6" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.10"/>
-        </svg>
+        <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.15"/><circle cx="30" cy="30" r="14" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.10"/><circle cx="30" cy="30" r="6" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.10"/></svg>
     </div>
 
-    <!-- ===== ROMAN CLOCKS ===== -->
+    <!-- ============================================================
+    ROMAN CLOCKS
+    ============================================================ -->
     <div class="clock-bg c1">
-        <div class="clock-face">
-            <div class="roman-num">
-                <span>I</span><span>II</span><span>III</span><span>IV</span>
-                <span>V</span><span>VI</span><span>VII</span><span>VIII</span>
-                <span>IX</span><span>X</span><span>XI</span><span>XII</span>
-            </div>
-        </div>
+        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
     </div>
     <div class="clock-bg c2">
-        <div class="clock-face">
-            <div class="roman-num">
-                <span>I</span><span>II</span><span>III</span><span>IV</span>
-                <span>V</span><span>VI</span><span>VII</span><span>VIII</span>
-                <span>IX</span><span>X</span><span>XI</span><span>XII</span>
-            </div>
-        </div>
+        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
     </div>
     <div class="clock-bg c3">
-        <div class="clock-face">
-            <div class="roman-num">
-                <span>I</span><span>II</span><span>III</span><span>IV</span>
-                <span>V</span><span>VI</span><span>VII</span><span>VIII</span>
-                <span>IX</span><span>X</span><span>XI</span><span>XII</span>
-            </div>
-        </div>
+        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
     </div>
 
-    <!-- ===== MODAL ===== -->
+    <!-- ============================================================
+    MODAL
+    ============================================================ -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
             <span class="modal-icon">🎭</span>
@@ -1094,13 +1030,15 @@
         </div>
     </div>
 
-    <!-- ===== MAIN WRAPPER ===== -->
+    <!-- ============================================================
+    MAIN WRAPPER
+    ============================================================ -->
     <div class="main-wrapper">
 
         <!-- ===== HERO ===== -->
         <section id="hero">
 
-            <!-- TOP LOGO -->
+            <!-- TOP ORNAMEN -->
             <div class="hero-top">
                 <span>@esmanrogbt_official</span>
                 <span class="divider"></span>
@@ -1112,49 +1050,50 @@
             <!-- FRAME -->
             <div class="frame-wrapper">
 
-                <!-- TOPENG MASQUERADE -->
-                <div class="masquerade-top">
-                    <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                <!-- KOMPAS / TOPENG -->
+                <div class="compass-top">
+                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="maskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f5e08a;stop-opacity:1" />
-                                <stop offset="40%" style="stop-color:#d4af37;stop-opacity:1" />
-                                <stop offset="80%" style="stop-color:#a67c1e;stop-opacity:1" />
+                            <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#f0d68a;stop-opacity:1" />
+                                <stop offset="40%" style="stop-color:#c9a84c;stop-opacity:1" />
+                                <stop offset="80%" style="stop-color:#a07d32;stop-opacity:1" />
                                 <stop offset="100%" style="stop-color:#7a5a1a;stop-opacity:1" />
                             </linearGradient>
-                            <filter id="maskGlow">
-                                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#d4af37" flood-opacity="0.3"/>
+                            <filter id="compassGlow">
+                                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#c9a84c" flood-opacity="0.25"/>
                             </filter>
                         </defs>
-                        <!-- topeng bentuk klasik -->
-                        <path d="M20,30 C20,12 40,4 60,4 C80,4 100,12 100,30 C100,42 90,50 80,54
-                        C70,58 60,60 60,60 C60,60 50,58 40,54 C30,50 20,42 20,30 Z"
-                        fill="url(#maskGrad)" opacity="0.9" filter="url(#maskGlow)" />
-                        <!-- lubang mata -->
-                        <ellipse cx="44" cy="30" rx="14" ry="10" fill="#0c0a08" opacity="0.7" />
-                        <ellipse cx="76" cy="30" rx="14" ry="10" fill="#0c0a08" opacity="0.7" />
-                        <!-- ornamen atas -->
-                        <path d="M60,8 L58,4 L62,4 L60,8 Z" fill="#f5e08a" opacity="0.6"/>
-                        <path d="M52,6 L50,2 L54,2 L52,6 Z" fill="#f5e08a" opacity="0.4"/>
-                        <path d="M68,6 L66,2 L70,2 L68,6 Z" fill="#f5e08a" opacity="0.4"/>
-                        <!-- detail bulu / aksen -->
-                        <path d="M20,32 C14,28 8,24 6,18 C4,12 10,14 14,18 C18,22 20,28 20,32 Z" fill="#d4af37" opacity="0.2"/>
-                        <path d="M100,32 C106,28 112,24 114,18 C116,12 110,14 106,18 C102,22 100,28 100,32 Z" fill="#d4af37" opacity="0.2"/>
+                        <!-- lingkaran kompas -->
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#compassGrad)" stroke-width="3" opacity="0.6" filter="url(#compassGlow)"/>
+                        <circle cx="60" cy="60" r="40" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/>
+                        <circle cx="60" cy="60" r="28" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.15"/>
+                        <!-- jarum kompas -->
+                        <polygon points="60,20 56,36 64,36" fill="#f0d68a" opacity="0.7"/>
+                        <polygon points="60,100 56,84 64,84" fill="#7a5a1a" opacity="0.5"/>
+                        <polygon points="20,60 36,56 36,64" fill="#c9a84c" opacity="0.4"/>
+                        <polygon points="100,60 84,56 84,64" fill="#c9a84c" opacity="0.4"/>
+                        <circle cx="60" cy="60" r="6" fill="#f0d68a" opacity="0.5"/>
+                        <!-- ornamen aksen -->
+                        <path d="M60,10 L58,6 L62,6 Z" fill="#f0d68a" opacity="0.3"/>
+                        <path d="M60,110 L58,114 L62,114 Z" fill="#f0d68a" opacity="0.3"/>
+                        <path d="M10,60 L6,58 L6,62 Z" fill="#f0d68a" opacity="0.3"/>
+                        <path d="M110,60 L114,58 L114,62 Z" fill="#f0d68a" opacity="0.3"/>
                     </svg>
                 </div>
 
                 <!-- ORNAMEN SUDUT -->
                 <div class="frame-ornament tl">
-                    <svg viewBox="0 0 24 24"><path d="M2,2 L10,2 L10,4 L6,4 L6,8 L4,8 L4,4 L2,4 Z" fill="#d4af37" opacity="0.5"/></svg>
+                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
                 </div>
                 <div class="frame-ornament tr">
-                    <svg viewBox="0 0 24 24"><path d="M2,2 L10,2 L10,4 L6,4 L6,8 L4,8 L4,4 L2,4 Z" fill="#d4af37" opacity="0.5"/></svg>
+                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
                 </div>
                 <div class="frame-ornament bl">
-                    <svg viewBox="0 0 24 24"><path d="M2,2 L10,2 L10,4 L6,4 L6,8 L4,8 L4,4 L2,4 Z" fill="#d4af37" opacity="0.5"/></svg>
+                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
                 </div>
                 <div class="frame-ornament br">
-                    <svg viewBox="0 0 24 24"><path d="M2,2 L10,2 L10,4 L6,4 L6,8 L4,8 L4,4 L2,4 Z" fill="#d4af37" opacity="0.5"/></svg>
+                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
                 </div>
 
                 <!-- BINGKAI OVAL -->
@@ -1174,22 +1113,22 @@
             <div class="ribbon-container">
                 <svg class="ribbon-svg" viewBox="0 0 600 50" preserveAspectRatio="xMidYMid meet">
                     <defs>
-                        <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#8b0000;stop-opacity:0.4" />
-                            <stop offset="20%" style="stop-color:#cc1122;stop-opacity:0.7" />
-                            <stop offset="50%" style="stop-color:#cc1122;stop-opacity:0.9" />
-                            <stop offset="80%" style="stop-color:#cc1122;stop-opacity:0.7" />
-                            <stop offset="100%" style="stop-color:#8b0000;stop-opacity:0.4" />
+                        <linearGradient id="ribbonGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#5a1515;stop-opacity:0.3" />
+                            <stop offset="20%" style="stop-color:#8b1a1a;stop-opacity:0.6" />
+                            <stop offset="50%" style="stop-color:#b33a3a;stop-opacity:0.8" />
+                            <stop offset="80%" style="stop-color:#8b1a1a;stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:#5a1515;stop-opacity:0.3" />
                         </linearGradient>
-                        <filter id="ribbonShadow">
-                            <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#8b0000" flood-opacity="0.3"/>
+                        <filter id="ribbonShadow2">
+                            <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#5a1515" flood-opacity="0.25"/>
                         </filter>
                     </defs>
                     <path d="M0,25 C80,0 160,50 240,25 C320,0 400,50 480,25 C540,10 580,18 600,25
                     L600,35 C580,28 540,20 480,35 C400,60 320,10 240,35 C160,60 80,10 0,35 Z"
-                    fill="url(#ribbonGrad)" filter="url(#ribbonShadow)" opacity="0.85"/>
+                    fill="url(#ribbonGrad2)" filter="url(#ribbonShadow2)" opacity="0.8"/>
                     <path d="M0,27 C80,2 160,52 240,27 C320,2 400,52 480,27 C540,12 580,20 600,27"
-                    fill="none" stroke="#ff3344" stroke-width="1.5" opacity="0.15"/>
+                    fill="none" stroke="#cc4444" stroke-width="1.5" opacity="0.12"/>
                 </svg>
             </div>
 
@@ -1198,11 +1137,10 @@
 
         </section>
 
-        <!-- ===== MENU SECTION ===== -->
+        <!-- ===== MENU ===== -->
         <section id="menu-section">
             <div class="menu-grid">
 
-                <!-- MENU 1: CONTOH TWIBBON -->
                 <div class="menu-card" data-action="example">
                     <div class="card-glow"></div>
                     <span class="icon">🎭</span>
@@ -1210,7 +1148,6 @@
                     <p>Lihat contoh hasil Twibbon PTA 2026</p>
                 </div>
 
-                <!-- MENU 2: TUTORIAL -->
                 <div class="menu-card" data-action="tutorial">
                     <div class="card-glow"></div>
                     <span class="icon">📖</span>
@@ -1218,7 +1155,6 @@
                     <p>Panduan memasang Twibbon dengan mudah</p>
                 </div>
 
-                <!-- MENU 3: LINK TWIBBON -->
                 <div class="menu-card" data-action="link">
                     <div class="card-glow"></div>
                     <span class="icon">🔗</span>
@@ -1229,7 +1165,7 @@
             </div>
         </section>
 
-        <!-- ===== CONTACT SECTION ===== -->
+        <!-- ===== CONTACT ===== -->
         <section id="contact-section">
             <div class="contact-card">
                 <div class="contact-title">🎭 Mengalami Kendala?</div>
@@ -1237,13 +1173,11 @@
                     Jika mengalami kendala dalam pemasangan Twibbon PTA 2026<br>
                     silakan hubungi panitia melalui kontak berikut.
                 </div>
-
                 <div class="contact-links">
                     <a href="https://www.instagram.com/rakadipo_scout" target="_blank" class="contact-item">
                         <span class="icon">📸</span>
                         <span class="label">@rakadipo_scout</span>
                     </a>
-
                     <a href="https://wa.me/6285855319359" target="_blank" class="btn-wa">
                         <span class="icon">💬</span>
                         +62 858-5531-9359
@@ -1259,26 +1193,26 @@
 
     </div>
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
     <script>
         (function() {
             'use strict';
 
-            // ============================================================
-            //  CONFIGURATION
-            // ============================================================
+            // CONFIG
             const CONFIG = {
-                twibbonLink: "#" // Ganti dengan link twibbon sesungguhnya
+                twibbonLink: "#"
             };
 
             // ============================================================
-            //  DUST PARTICLES (Canvas)
+            // DUST PARTICLES
             // ============================================================
             const canvas = document.getElementById('dust-canvas');
             const ctx = canvas.getContext('2d');
             let width, height;
             let particles = [];
-            const PARTICLE_COUNT = 80;
+            const PARTICLE_COUNT = 70;
 
             function resizeCanvas() {
                 width = window.innerWidth;
@@ -1293,10 +1227,10 @@
                     particles.push({
                         x: Math.random() * width,
                         y: Math.random() * height,
-                        r: Math.random() * 2.5 + 0.8,
-                        dx: (Math.random() - 0.5) * 0.25,
-                        dy: (Math.random() - 0.5) * 0.25 - 0.08,
-                        alpha: Math.random() * 0.5 + 0.15,
+                        r: Math.random() * 2.2 + 0.6,
+                        dx: (Math.random() - 0.5) * 0.2,
+                        dy: (Math.random() - 0.5) * 0.2 - 0.06,
+                        alpha: Math.random() * 0.4 + 0.12,
                         pulse: Math.random() * Math.PI * 2
                     });
                 }
@@ -1304,36 +1238,33 @@
 
             function drawDust() {
                 ctx.clearRect(0, 0, width, height);
-
                 for (const p of particles) {
                     p.x += p.dx;
                     p.y += p.dy;
-                    p.pulse += 0.008;
-
+                    p.pulse += 0.006;
                     if (p.x < -10) p.x = width + 10;
                     if (p.x > width + 10) p.x = -10;
                     if (p.y < -10) p.y = height + 10;
                     if (p.y > height + 10) p.y = -10;
 
-                    const alpha = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+                    const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
                     const radius = p.r * (0.8 + 0.2 * Math.sin(p.pulse * 0.7));
 
-                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2);
-                    gradient.addColorStop(0, `rgba(245, 224, 138, ${alpha * 0.5})`);
-                    gradient.addColorStop(0.5, `rgba(212, 175, 55, ${alpha * 0.2})`);
-                    gradient.addColorStop(1, `rgba(212, 175, 55, 0)`);
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2);
+                    grad.addColorStop(0, `rgba(240, 214, 138, ${alpha * 0.5})`);
+                    grad.addColorStop(0.5, `rgba(201, 168, 76, ${alpha * 0.2})`);
+                    grad.addColorStop(1, `rgba(201, 168, 76, 0)`);
 
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, radius * 2, 0, Math.PI * 2);
-                    ctx.fillStyle = gradient;
+                    ctx.fillStyle = grad;
                     ctx.fill();
 
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(245, 224, 138, ${alpha * 0.5})`;
+                    ctx.fillStyle = `rgba(240, 214, 138, ${alpha * 0.4})`;
                     ctx.fill();
                 }
-
                 requestAnimationFrame(drawDust);
             }
 
@@ -1342,14 +1273,13 @@
                 createParticles();
                 drawDust();
             }
-
             window.addEventListener('resize', () => {
                 resizeCanvas();
                 createParticles();
             });
 
             // ============================================================
-            //  SCROLL REVEAL (Intersection Observer)
+            // SCROLL REVEAL
             // ============================================================
             const menuSection = document.getElementById('menu-section');
             const contactSection = document.getElementById('contact-section');
@@ -1360,22 +1290,18 @@
                         entry.target.classList.add('visible');
                     }
                 }
-            }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -40px 0px'
-            });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
 
             if (menuSection) observer.observe(menuSection);
             if (contactSection) observer.observe(contactSection);
 
             // ============================================================
-            //  ENTER BUTTON → Scroll ke menu
+            // ENTER BUTTON
             // ============================================================
             const enterBtn = document.getElementById('enterBtn');
             if (enterBtn) {
                 enterBtn.addEventListener('click', () => {
                     menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Force muncul jika belum terlihat
                     setTimeout(() => {
                         menuSection.classList.add('visible');
                         contactSection.classList.add('visible');
@@ -1384,14 +1310,14 @@
             }
 
             // ============================================================
-            //  MENU CARDS
+            // MODAL
             // ============================================================
             const modalOverlay = document.getElementById('modalOverlay');
             const modalMessage = document.getElementById('modalMessage');
             const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-            function showModal(message) {
-                modalMessage.textContent = message || 'Link Twibbon Akan Segera Tersedia';
+            function showModal(msg) {
+                modalMessage.textContent = msg || 'Link Twibbon Akan Segera Tersedia';
                 modalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1409,10 +1335,12 @@
                 if (e.key === 'Escape') hideModal();
             });
 
+            // ============================================================
+            // MENU CARDS
+            // ============================================================
             document.querySelectorAll('.menu-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const action = this.dataset.action;
-
                     if (action === 'example') {
                         window.open(
                             'https://www.instagram.com/p/DaxsOwiEuh-/?igsh=MXgwcTNreGx2ZGlwNw==',
@@ -1435,24 +1363,19 @@
             });
 
             // ============================================================
-            //  INIT
+            // INIT
             // ============================================================
             initDust();
 
-            // Tampilkan menu jika sudah terlihat di awal (misal di desktop)
             setTimeout(() => {
                 const rect = menuSection.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    menuSection.classList.add('visible');
-                }
+                if (rect.top < window.innerHeight) menuSection.classList.add('visible');
                 const rect2 = contactSection.getBoundingClientRect();
-                if (rect2.top < window.innerHeight) {
-                    contactSection.classList.add('visible');
-                }
-            }, 600);
+                if (rect2.top < window.innerHeight) contactSection.classList.add('visible');
+            }, 500);
 
-            console.log('🎭 PTA 2026 – Website resmi siap!');
-            console.log('📌 Konfigurasi twibbonLink:', CONFIG.twibbonLink);
+            console.log('🎭 PTA 2026 – Vintage Steampunk Theme');
+            console.log('📌 twibbonLink:', CONFIG.twibbonLink);
 
         })();
     </script>
