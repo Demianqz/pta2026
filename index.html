@@ -1,1384 +1,643 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>PTA 2026 – Pramuka Berjiwa Disiplin & Berkarya</title>
-    <style>
-        /* ============================================================
-           RESET & BASE
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTA 2026</title>
 
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=MedievalSharp&family=Cinzel:wght@400;700;900&display=swap');
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        :root {
-            --gold: #c9a84c;
-            --gold-light: #f0d68a;
-            --gold-dark: #a07d32;
-            --gold-glow: rgba(201, 168, 76, 0.3);
-            --red: #7a1f1f;
-            --red-bright: #b33a3a;
-            --dark: #0d0b09;
-            --dark-warm: #1a1510;
-            --cream: #ede5d3;
-            --text-gold: #dcc58a;
-            --shadow-gold: 0 0 60px rgba(201, 168, 76, 0.12);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        html {
-            scroll-behavior: smooth;
-        }
+<style>
 
-        body {
-            font-family: 'Cinzel', 'Playfair Display', 'Cormorant Garamond', serif;
-            background: var(--dark);
-            color: var(--cream);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+:root{
+--gold:#d6b26a;
+--gold2:#f1d59a;
+--bronze:#8c6239;
+--dark:#0d0907;
+--brown:#1a120d;
+--cream:#f8ecd0;
+--shadow:0 15px 40px rgba(0,0,0,.45);
+}
 
-        /* ============================================================
-           BACKGROUND LAYER – tekstur vintage + gradasi
-           ============================================================ */
-        #bg-layer {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background:
-                radial-gradient(ellipse at 30% 20%, rgba(60, 40, 20, 0.4) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(40, 30, 15, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(10, 8, 6, 0.95) 0%, #0d0b09 100%);
-            pointer-events: none;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        /* tekstur kertas tua / kain */
-        #bg-texture {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background-image:
-                repeating-linear-gradient(45deg, rgba(201, 168, 76, 0.015) 0px, rgba(201, 168, 76, 0.015) 2px, transparent 2px, transparent 8px),
-                repeating-linear-gradient(-45deg, rgba(201, 168, 76, 0.015) 0px, rgba(201, 168, 76, 0.015) 2px, transparent 2px, transparent 8px),
-                radial-gradient(circle at 20% 30%, rgba(201, 168, 76, 0.02) 0%, transparent 40%);
-            pointer-events: none;
-        }
+html{
+scroll-behavior:smooth;
+}
 
-        /* cahaya volumetric */
-        #volumetric-light {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(201, 168, 76, 0.06) 0%, transparent 60%);
-            pointer-events: none;
-            animation: pulseLight 10s ease-in-out infinite alternate;
-        }
+body{
+background:
+radial-gradient(circle at top,#2b1d12 0%,#120d09 45%,#080605 100%);
+font-family:'Cormorant Garamond',serif;
+color:white;
+overflow-x:hidden;
+}
 
-        @keyframes pulseLight {
-            0% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.04);
-            }
-        }
+/* ======================
+LOADING
+====================== */
 
-        /* ============================================================
-           DUST PARTICLES (canvas)
-           ============================================================ */
-        #dust-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
+#loader{
+position:fixed;
+inset:0;
+background:#050403;
+z-index:99999;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+transition:1s;
+}
 
-        /* ============================================================
-           STEAMPUNK GEARS
-           ============================================================ */
-        .gear-bg {
-            position: fixed;
-            z-index: 0;
-            opacity: 0.08;
-            pointer-events: none;
-            animation: spinGear 70s linear infinite;
-        }
-        .gear-bg svg {
-            width: 100%;
-            height: 100%;
-        }
-        .gear-bg.g1 {
-            width: 180px;
-            height: 180px;
-            bottom: 5%;
-            left: 2%;
-            animation-duration: 90s;
-            opacity: 0.06;
-        }
-        .gear-bg.g2 {
-            width: 140px;
-            height: 140px;
-            top: 8%;
-            right: 1%;
-            animation-duration: 70s;
-            animation-direction: reverse;
-            opacity: 0.05;
-        }
-        .gear-bg.g3 {
-            width: 110px;
-            height: 110px;
-            bottom: 22%;
-            right: 3%;
-            animation-duration: 80s;
-            opacity: 0.04;
-        }
-        .gear-bg.g4 {
-            width: 90px;
-            height: 90px;
-            top: 45%;
-            left: 1%;
-            animation-duration: 60s;
-            animation-direction: reverse;
-            opacity: 0.04;
-        }
+.loader-title{
+font-family:'Cinzel',serif;
+font-size:4rem;
+color:var(--gold2);
+letter-spacing:6px;
+opacity:0;
+animation:titleReveal 1.8s forwards;
+}
 
-        @keyframes spinGear {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+.loader-sub{
+margin-top:10px;
+font-size:1rem;
+letter-spacing:5px;
+color:#d8c38c;
+opacity:0;
+animation:titleReveal 1.8s .8s forwards;
+}
 
-        /* ============================================================
-           ROMAN CLOCKS (background)
-           ============================================================ */
-        .clock-bg {
-            position: fixed;
-            z-index: 0;
-            opacity: 0.08;
-            pointer-events: none;
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            text-align: center;
-        }
-        .clock-bg .clock-face {
-            border: 1.5px solid rgba(201, 168, 76, 0.15);
-            border-radius: 50%;
-            padding: 8px 6px;
-            width: 72px;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(10, 8, 6, 0.4);
-            box-shadow: 0 0 30px rgba(201, 168, 76, 0.03);
-        }
-        .clock-bg .roman-num {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            font-size: 9px;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-        }
-        .clock-bg .roman-num span {
-            width: 12px;
-            text-align: center;
-        }
-        .clock-bg.c1 {
-            bottom: 3%;
-            left: 4%;
-        }
-        .clock-bg.c2 {
-            top: 6%;
-            right: 3%;
-        }
-        .clock-bg.c3 {
-            bottom: 20%;
-            right: 2%;
-        }
+@keyframes titleReveal{
+to{
+opacity:1;
+transform:translateY(0);
+}
+from{
+opacity:0;
+transform:translateY(20px);
+}
+}
 
-        /* ============================================================
-           MAIN WRAPPER
-           ============================================================ */
-        .main-wrapper {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 16px 50px;
-        }
+.loader-gear{
+position:absolute;
+width:180px;
+height:180px;
+border:4px solid rgba(214,178,106,.3);
+border-radius:50%;
+animation:spin 12s linear infinite;
+}
 
-        /* ============================================================
-           HERO SECTION – full vintage
-           ============================================================ */
-        #hero {
-            width: 100%;
-            max-width: 860px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 10px;
-            min-height: 100vh;
-            justify-content: center;
-            position: relative;
-        }
+.loader-gear:before{
+content:"";
+position:absolute;
+inset:20px;
+border-radius:50%;
+border:2px solid rgba(214,178,106,.25);
+}
 
-        /* ===== TOP ORNAMEN ===== */
-        .hero-top {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            justify-content: center;
-            font-size: clamp(10px, 1.6vw, 14px);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-gold);
-            opacity: 0.5;
-            font-weight: 400;
-            font-family: 'Cinzel', serif;
-        }
-        .hero-top .divider {
-            width: 50px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-        }
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
 
-        /* ===== FRAME UTAMA ===== */
-        .frame-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 620px;
-            margin: 0 auto;
-            padding: 16px;
-        }
+/* ======================
+PARTICLES
+====================== */
 
-        /* glow luar */
-        .frame-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: -24px;
-            border-radius: 50%;
-            background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
-            pointer-events: none;
-            animation: glowPulse 5s ease-in-out infinite alternate;
-        }
+.particles{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:1;
+overflow:hidden;
+}
 
-        @keyframes glowPulse {
-            0% {
-                opacity: 0.3;
-                transform: scale(0.97);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.03);
-            }
-        }
+.particle{
+position:absolute;
+width:3px;
+height:3px;
+background:#ffd17c;
+border-radius:50%;
+box-shadow:0 0 15px #ffd17c;
+animation:float 15s linear infinite;
+}
 
-        /* ===== BINGKAI OVAL ===== */
-        .frame-oval {
-            position: relative;
-            aspect-ratio: 3 / 3.9;
-            border-radius: 50% / 45%;
-            background:
-                radial-gradient(ellipse at 30% 25%, rgba(245, 224, 138, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 75%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
-                linear-gradient(145deg, #1a1510 0%, #0d0b09 100%);
-            border: 8px solid transparent;
-            box-shadow:
-                0 0 80px rgba(201, 168, 76, 0.08),
-                inset 0 0 100px rgba(201, 168, 76, 0.03),
-                0 20px 70px rgba(0, 0, 0, 0.7);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px 20px;
-            text-align: center;
-            overflow: visible;
-        }
+@keyframes float{
+from{
+transform:translateY(100vh);
+opacity:0;
+}
+10%{
+opacity:1;
+}
+90%{
+opacity:1;
+}
+to{
+transform:translateY(-120px);
+opacity:0;
+}
+}
 
-        /* border emas 3D dengan ornamen */
-        .frame-oval::before {
-            content: '';
-            position: absolute;
-            inset: -10px;
-            border-radius: 50% / 45%;
-            padding: 10px;
-            background: conic-gradient(from 0deg,
-                    #7a5a1a,
-                    #a07d32,
-                    #c9a84c,
-                    #f0d68a,
-                    #c9a84c,
-                    #a07d32,
-                    #7a5a1a,
-                    #5a3f12,
-                    #7a5a1a);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            animation: shimmerBorder 12s linear infinite;
-        }
+/* ======================
+BACKGROUND DECOR
+====================== */
 
-        @keyframes shimmerBorder {
-            0% {
-                filter: hue-rotate(0deg) brightness(1);
-            }
-            50% {
-                filter: hue-rotate(4deg) brightness(1.08);
-            }
-            100% {
-                filter: hue-rotate(0deg) brightness(1);
-            }
-        }
+.bg-light{
+position:fixed;
+top:-100px;
+left:50%;
+transform:translateX(-50%);
+width:700px;
+height:700px;
+background:radial-gradient(circle,
+rgba(255,205,130,.18),
+transparent 70%);
+filter:blur(60px);
+pointer-events:none;
+z-index:0;
+}
 
-        /* ornamen sudut – mirip gambar referensi */
-        .frame-ornament {
-            position: absolute;
-            width: 44px;
-            height: 44px;
-            opacity: 0.25;
-            pointer-events: none;
-        }
-        .frame-ornament svg {
-            width: 100%;
-            height: 100%;
-            fill: var(--gold);
-        }
-        .frame-ornament.tl {
-            top: -8px;
-            left: -8px;
-        }
-        .frame-ornament.tr {
-            top: -8px;
-            right: -8px;
-            transform: scaleX(-1);
-        }
-        .frame-ornament.bl {
-            bottom: -8px;
-            left: -8px;
-            transform: scaleY(-1);
-        }
-        .frame-ornament.br {
-            bottom: -8px;
-            right: -8px;
-            transform: scale(-1, -1);
-        }
+.gear{
+position:fixed;
+opacity:.08;
+z-index:0;
+border-radius:50%;
+border:10px solid var(--gold);
+animation:spin 40s linear infinite;
+}
 
-        /* ===== ISI FRAME ===== */
-        .frame-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            padding: 4px 2px;
-        }
+.gear:before{
+content:"";
+position:absolute;
+inset:20px;
+border:3px solid var(--gold);
+border-radius:50%;
+}
 
-        .frame-content .pta-title {
-            font-size: clamp(2.8rem, 14vw, 5.6rem);
-            font-weight: 900;
-            letter-spacing: 8px;
-            background: linear-gradient(180deg, #f0d68a 0%, #c9a84c 40%, #a07d32 70%, #7a5a1a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 80px rgba(201, 168, 76, 0.15);
-            line-height: 1;
-            font-family: 'Cinzel', serif;
-        }
+.gear1{
+width:160px;
+height:160px;
+left:-40px;
+bottom:40px;
+}
 
-        .frame-content .pta-year {
-            font-size: clamp(1.2rem, 4.5vw, 2.2rem);
-            font-weight: 400;
-            letter-spacing: 16px;
-            color: var(--text-gold);
-            opacity: 0.4;
-            margin-top: -8px;
-            font-family: 'Cinzel', serif;
-        }
+.gear2{
+width:220px;
+height:220px;
+right:-60px;
+top:120px;
+animation-direction:reverse;
+}
 
-        .frame-content .tagline {
-            font-size: clamp(0.65rem, 1.6vw, 0.95rem);
-            letter-spacing: 5px;
-            color: var(--text-gold);
-            opacity: 0.5;
-            margin-top: 8px;
-            font-weight: 400;
-            text-transform: uppercase;
-            font-family: 'Cinzel', serif;
-            border-top: 1px solid rgba(201, 168, 76, 0.12);
-            border-bottom: 1px solid rgba(201, 168, 76, 0.12);
-            padding: 8px 0;
-            display: inline-block;
-        }
+.gear3{
+width:130px;
+height:130px;
+right:30px;
+bottom:80px;
+}
 
-        .frame-content .ready-text {
-            font-size: clamp(1.8rem, 7vw, 3.6rem);
-            font-weight: 700;
-            letter-spacing: 8px;
-            color: var(--cream);
-            margin-top: 10px;
-            text-shadow: 0 0 50px rgba(201, 168, 76, 0.1);
-            font-family: 'Cinzel', serif;
-            font-style: italic;
-        }
+/* ======================
+HERO
+====================== */
 
-        .frame-content .ready-text span {
-            color: var(--gold);
-            text-shadow: 0 0 40px rgba(201, 168, 76, 0.25);
-        }
+.hero{
+min-height:100vh;
+position:relative;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px 25px;
+z-index:2;
+}
 
-        .frame-content .date-hero {
-            font-size: clamp(0.8rem, 2vw, 1.1rem);
-            letter-spacing: 6px;
-            color: var(--text-gold);
-            opacity: 0.4;
-            margin-top: 14px;
-            font-family: 'Cinzel', serif;
-            border-top: 1px solid rgba(201, 168, 76, 0.08);
-            padding-top: 12px;
-        }
+.hero-content{
+max-width:900px;
+text-align:center;
+}
 
-        /* ===== TOPENG / KOMPAS – elemen ikonik di atas bingkai ===== */
-        .compass-top {
-            position: absolute;
-            top: -48px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-            width: clamp(70px, 20vw, 110px);
-            height: auto;
-            filter: drop-shadow(0 8px 30px rgba(201, 168, 76, 0.2));
-            animation: floatCompass 7s ease-in-out infinite alternate;
-        }
+.topline{
+letter-spacing:8px;
+font-size:.85rem;
+color:#d8c38c;
+margin-bottom:20px;
+}
 
-        @keyframes floatCompass {
-            0% {
-                transform: translateX(-50%) translateY(0px) rotate(-4deg);
-            }
-            100% {
-                transform: translateX(-50%) translateY(-8px) rotate(4deg);
-            }
-        }
+.main-title{
+font-family:'Cinzel',serif;
+font-size:clamp(4rem,12vw,8rem);
+line-height:.95;
+color:#f6deb0;
+text-shadow:
+0 0 20px rgba(255,220,150,.3),
+0 0 60px rgba(255,180,80,.15);
+}
 
-        .compass-top svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+.subtitle{
+margin-top:20px;
+font-size:1.3rem;
+color:#f1e1b5;
+}
 
-        /* ===== PITA MERAH ===== */
-        .ribbon-container {
-            position: relative;
-            width: 100%;
-            max-width: 680px;
-            margin: 6px auto 0;
-            height: 44px;
-            overflow: visible;
-            z-index: 3;
-        }
-        .ribbon-svg {
-            width: 100%;
-            height: 60px;
-            display: block;
-            filter: drop-shadow(0 4px 24px rgba(122, 31, 31, 0.25));
-        }
+.date{
+margin-top:25px;
+font-size:1.2rem;
+letter-spacing:3px;
+color:#d4b16f;
+}
 
-        /* ===== ENTER BUTTON ===== */
-        .enter-btn {
-            margin-top: 30px;
-            background: transparent;
-            border: 1.5px solid rgba(201, 168, 76, 0.25);
-            color: var(--text-gold);
-            padding: 12px 44px;
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            position: relative;
-            background: rgba(201, 168, 76, 0.03);
-            border-radius: 2px;
-            backdrop-filter: blur(4px);
-        }
-        .enter-btn:hover {
-            background: rgba(201, 168, 76, 0.08);
-            border-color: var(--gold);
-            box-shadow: 0 0 50px rgba(201, 168, 76, 0.06);
-            transform: translateY(-2px);
-        }
-        .enter-btn::after {
-            content: '↓';
-            display: inline-block;
-            margin-left: 14px;
-            animation: bounceArrow 2.4s ease-in-out infinite;
-        }
-        @keyframes bounceArrow {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(5px);
-            }
-        }
+.ready{
+margin-top:40px;
+font-family:'Cinzel',serif;
+font-size:2rem;
+letter-spacing:4px;
+color:white;
+}
 
-        /* ============================================================
-           MENU SECTION
-           ============================================================ */
-        #menu-section {
-            width: 100%;
-            max-width: 800px;
-            margin: 50px auto 30px;
-            padding: 0 12px;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        #menu-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.enter-btn{
+display:inline-block;
+margin-top:35px;
+padding:14px 38px;
+border:1px solid rgba(255,215,130,.4);
+text-decoration:none;
+color:#fff;
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,.05);
+transition:.4s;
+}
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 28px;
-        }
-        @media (min-width: 640px) {
-            .menu-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 24px;
-            }
-        }
+.enter-btn:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 35px rgba(255,200,100,.25);
+}
 
-        .menu-card {
-            background: linear-gradient(145deg, rgba(26, 21, 16, 0.85), rgba(13, 11, 9, 0.95));
-            border: 1px solid rgba(201, 168, 76, 0.12);
-            border-radius: 4px;
-            padding: 32px 18px 26px;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            transition: all 0.5s ease;
-        }
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 4px;
-            padding: 1.5px;
-            background: conic-gradient(from 0deg, transparent, rgba(201, 168, 76, 0.2), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        .menu-card:hover::before {
-            opacity: 1;
-        }
-        .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(201, 168, 76, 0.25);
-            box-shadow: 0 16px 56px rgba(0, 0, 0, 0.6), 0 0 50px rgba(201, 168, 76, 0.03);
-        }
-        .menu-card .icon {
-            font-size: 2.6rem;
-            margin-bottom: 10px;
-            display: block;
-            filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.08));
-        }
-        .menu-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-            font-weight: 700;
-            color: var(--text-gold);
-            letter-spacing: 3px;
-            margin-bottom: 4px;
-        }
-        .menu-card p {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.25);
-            letter-spacing: 1px;
-        }
-        .menu-card .card-glow {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.025) 0%, transparent 60%);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        .menu-card:hover .card-glow {
-            opacity: 1;
-        }
+/* ======================
+SECTION
+====================== */
 
-        /* ============================================================
-           CONTACT SECTION
-           ============================================================ */
-        #contact-section {
-            width: 100%;
-            max-width: 800px;
-            margin: 16px auto 30px;
-            padding: 0 12px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.15s;
-        }
-        #contact-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.section{
+padding:80px 20px;
+position:relative;
+z-index:2;
+}
 
-        .contact-card {
-            background: linear-gradient(145deg, rgba(26, 21, 16, 0.88), rgba(13, 11, 9, 0.96));
-            border: 1px solid rgba(201, 168, 76, 0.10);
-            border-radius: 4px;
-            padding: 34px 24px 30px;
-            text-align: center;
-            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(8px);
-        }
-        .contact-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.2;
-        }
-        .contact-card .contact-title {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(1.4rem, 3.5vw, 2rem);
-            font-weight: 700;
-            color: var(--text-gold);
-            letter-spacing: 3px;
-            margin-bottom: 6px;
-        }
-        .contact-card .contact-sub {
-            font-family: 'Cormorant Garamond', serif;
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            margin-bottom: 22px;
-            line-height: 1.6;
-        }
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
-        }
-        .contact-links .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 6px 18px;
-            border-radius: 2px;
-            border: 1px solid transparent;
-            letter-spacing: 1px;
-        }
-        .contact-links .contact-item:hover {
-            color: var(--text-gold);
-            border-color: rgba(201, 168, 76, 0.08);
-            background: rgba(201, 168, 76, 0.02);
-        }
-        .contact-links .contact-item .icon {
-            font-size: 1.4rem;
-            width: 34px;
-            text-align: center;
-        }
+.section-title{
+font-family:'Cinzel',serif;
+font-size:2.5rem;
+text-align:center;
+color:#f3d69f;
+margin-bottom:50px;
+}
 
-        .btn-wa {
-            margin-top: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.10), rgba(37, 211, 102, 0.02));
-            border: 1px solid rgba(37, 211, 102, 0.15);
-            color: #25d366;
-            padding: 14px 38px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            transition: all 0.4s ease;
-            box-shadow: 0 0 40px rgba(37, 211, 102, 0.02);
-        }
-        .btn-wa:hover {
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.18), rgba(37, 211, 102, 0.05));
-            border-color: rgba(37, 211, 102, 0.3);
-            box-shadow: 0 0 60px rgba(37, 211, 102, 0.05);
-            transform: translateY(-2px);
-            color: #30d96a;
-        }
-        .btn-wa .icon {
-            font-size: 1.6rem;
-        }
+.menu-wrap{
+max-width:1000px;
+margin:auto;
+display:grid;
+gap:25px;
+}
 
-        /* ============================================================
-           FOOTER
-           ============================================================ */
-        .footer {
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-            padding: 30px 12px 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.08);
-            letter-spacing: 5px;
-            border-top: 1px solid rgba(201, 168, 76, 0.03);
-            margin-top: 20px;
-            text-transform: uppercase;
-        }
+.menu-card{
+position:relative;
+overflow:hidden;
+padding:35px;
+border:1px solid rgba(255,220,150,.18);
+background:
+linear-gradient(
+180deg,
+rgba(255,255,255,.05),
+rgba(255,255,255,.02)
+);
+backdrop-filter:blur(10px);
+cursor:pointer;
+transition:.5s;
+box-shadow:var(--shadow);
+}
 
-        /* ============================================================
-           MODAL
-           ============================================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        .modal-box {
-            background: linear-gradient(145deg, #1a1510, #0d0b09);
-            border: 1px solid rgba(201, 168, 76, 0.12);
-            border-radius: 4px;
-            padding: 42px 34px 34px;
-            max-width: 420px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 24px 90px rgba(0, 0, 0, 0.8);
-            transform: scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-        }
-        .modal-overlay.active .modal-box {
-            transform: scale(1);
-        }
-        .modal-box .modal-icon {
-            font-size: 3.2rem;
-            margin-bottom: 12px;
-            display: block;
-        }
-        .modal-box h3 {
-            font-family: 'Cinzel', serif;
-            color: var(--text-gold);
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-        }
-        .modal-box p {
-            font-family: 'Cormorant Garamond', serif;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.95rem;
-            margin-bottom: 22px;
-            line-height: 1.6;
-        }
-        .modal-box .modal-close {
-            background: transparent;
-            border: 1px solid rgba(201, 168, 76, 0.15);
-            color: var(--text-gold);
-            padding: 10px 36px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            letter-spacing: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-        .modal-box .modal-close:hover {
-            background: rgba(201, 168, 76, 0.04);
-            border-color: var(--gold);
-        }
+.menu-card:hover{
+transform:translateY(-8px);
+border-color:rgba(255,220,150,.5);
+}
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (max-width: 480px) {
-            .main-wrapper {
-                padding: 12px 10px 30px;
-            }
-            .frame-wrapper {
-                padding: 10px;
-            }
-            .frame-oval {
-                border-width: 5px;
-                padding: 16px 12px;
-            }
-            .frame-oval::before {
-                inset: -6px;
-                padding: 6px;
-            }
-            .compass-top {
-                top: -34px;
-                width: 50px;
-            }
-            .frame-ornament {
-                width: 28px;
-                height: 28px;
-            }
-            .frame-ornament.tl {
-                top: -5px;
-                left: -5px;
-            }
-            .frame-ornament.tr {
-                top: -5px;
-                right: -5px;
-            }
-            .frame-ornament.bl {
-                bottom: -5px;
-                left: -5px;
-            }
-            .frame-ornament.br {
-                bottom: -5px;
-                right: -5px;
-            }
-            .ribbon-container {
-                height: 30px;
-            }
-            .ribbon-svg {
-                height: 42px;
-            }
-            .enter-btn {
-                padding: 10px 28px;
-                font-size: 0.75rem;
-                letter-spacing: 5px;
-            }
-            .menu-card {
-                padding: 22px 14px 20px;
-            }
-            .contact-card {
-                padding: 24px 16px 22px;
-            }
-            .btn-wa {
-                padding: 12px 24px;
-                font-size: 0.9rem;
-            }
-            .clock-bg .clock-face {
-                width: 50px;
-                height: 50px;
-                padding: 4px;
-            }
-            .clock-bg .roman-num {
-                font-size: 7px;
-                gap: 1px;
-            }
-            .clock-bg .roman-num span {
-                width: 9px;
-            }
-            .gear-bg.g1 {
-                width: 100px;
-                height: 100px;
-            }
-            .gear-bg.g2 {
-                width: 80px;
-                height: 80px;
-            }
-            .gear-bg.g3 {
-                width: 70px;
-                height: 70px;
-            }
-            .gear-bg.g4 {
-                width: 56px;
-                height: 56px;
-            }
-        }
+.menu-card::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:50%;
+height:100%;
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.08),
+transparent
+);
+transition:1s;
+}
 
-        @media (max-width: 380px) {
-            .frame-content .pta-title {
-                font-size: 2.2rem;
-                letter-spacing: 4px;
-            }
-            .frame-content .ready-text {
-                font-size: 1.4rem;
-                letter-spacing: 4px;
-            }
-            .hero-top {
-                font-size: 8px;
-                gap: 6px;
-                letter-spacing: 2px;
-            }
-            .hero-top .divider {
-                width: 20px;
-            }
-        }
+.menu-card:hover::before{
+left:150%;
+}
 
-        /* ============================================================
-           SCROLL HINT
-           ============================================================ */
-        .scroll-hint {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(201, 168, 76, 0.12);
-            font-size: 1.8rem;
-            animation: bounceArrow 2.4s ease-in-out infinite;
-            pointer-events: none;
-        }
+.menu-icon{
+font-size:2rem;
+margin-bottom:10px;
+}
 
-        /* utility */
-        .text-gold {
-            color: var(--gold);
-        }
-        .text-glow {
-            text-shadow: 0 0 50px rgba(201, 168, 76, 0.08);
-        }
-    </style>
+.menu-title{
+font-family:'Cinzel',serif;
+font-size:2rem;
+color:var(--gold2);
+}
+
+.menu-desc{
+margin-top:10px;
+font-size:1.1rem;
+color:#ddd;
+line-height:1.6;
+}
+    /* ======================
+CONTACT
+====================== */
+
+.contact-box{
+max-width:1000px;
+margin:auto;
+padding:40px;
+border:1px solid rgba(255,220,150,.18);
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(10px);
+box-shadow:var(--shadow);
+}
+
+.contact-text{
+text-align:center;
+font-size:1.2rem;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.contact-buttons{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+}
+
+.contact-btn{
+padding:14px 28px;
+text-decoration:none;
+color:white;
+border:1px solid rgba(255,220,150,.25);
+transition:.4s;
+}
+
+.contact-btn:hover{
+transform:translateY(-4px);
+box-shadow:0 10px 25px rgba(255,200,100,.25);
+}
+
+/* ======================
+FOOTER
+====================== */
+
+footer{
+padding:50px 20px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,.08);
+margin-top:70px;
+}
+
+.footer-title{
+font-family:'Cinzel',serif;
+font-size:2rem;
+color:var(--gold2);
+margin-bottom:10px;
+}
+
+.footer-text{
+color:#b9b9b9;
+line-height:1.7;
+}
+
+@media(max-width:768px){
+
+.main-title{
+font-size:4rem;
+}
+
+.menu-title{
+font-size:1.5rem;
+}
+
+.ready{
+font-size:1.4rem;
+}
+
+.loader-title{
+font-size:2.5rem;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <!-- ============================================================
-    BACKGROUND
-    ============================================================ -->
-    <div id="bg-layer"></div>
-    <div id="bg-texture"></div>
-    <div id="volumetric-light"></div>
-    <canvas id="dust-canvas"></canvas>
+<div id="loader">
+<div class="loader-gear"></div>
+<div class="loader-title">PTA 2026</div>
+<div class="loader-sub">ARE YOU READY?</div>
+</div>
 
-    <!-- ============================================================
-    STEAMPUNK GEARS
-    ============================================================ -->
-    <div class="gear-bg g1">
-        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#c9a84c" stroke-width="2" opacity="0.3"/><circle cx="50" cy="50" r="28" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><circle cx="50" cy="50" r="10" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><g stroke="#c9a84c" stroke-width="2" opacity="0.2"><line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/><line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/><line x1="20" y1="20" x2="28" y2="28"/><line x1="72" y1="72" x2="80" y2="80"/><line x1="20" y1="80" x2="28" y2="72"/><line x1="72" y1="28" x2="80" y2="20"/></g></svg>
-    </div>
-    <div class="gear-bg g2">
-        <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="30" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.25"/><circle cx="40" cy="40" r="20" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.15"/><circle cx="40" cy="40" r="8" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.15"/><g stroke="#c9a84c" stroke-width="1.5" opacity="0.15"><line x1="40" y1="8" x2="40" y2="16"/><line x1="40" y1="64" x2="40" y2="72"/><line x1="8" y1="40" x2="16" y2="40"/><line x1="64" y1="40" x2="72" y2="40"/><line x1="18" y1="18" x2="24" y2="24"/><line x1="56" y1="56" x2="62" y2="62"/><line x1="18" y1="62" x2="24" y2="56"/><line x1="56" y1="24" x2="62" y2="18"/></g></svg>
-    </div>
-    <div class="gear-bg g3">
-        <svg viewBox="0 0 70 70"><circle cx="35" cy="35" r="26" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/><circle cx="35" cy="35" r="16" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.12"/><circle cx="35" cy="35" r="7" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.12"/><g stroke="#c9a84c" stroke-width="1.5" opacity="0.12"><line x1="35" y1="7" x2="35" y2="14"/><line x1="35" y1="56" x2="35" y2="63"/><line x1="7" y1="35" x2="14" y2="35"/><line x1="56" y1="35" x2="63" y2="35"/></g></svg>
-    </div>
-    <div class="gear-bg g4">
-        <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.15"/><circle cx="30" cy="30" r="14" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.10"/><circle cx="30" cy="30" r="6" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.10"/></svg>
-    </div>
+<div class="bg-light"></div>
 
-    <!-- ============================================================
-    ROMAN CLOCKS
-    ============================================================ -->
-    <div class="clock-bg c1">
-        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
-    </div>
-    <div class="clock-bg c2">
-        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
-    </div>
-    <div class="clock-bg c3">
-        <div class="clock-face"><div class="roman-num"><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span><span>XI</span><span>XII</span></div></div>
-    </div>
+<div class="gear gear1"></div>
+<div class="gear gear2"></div>
+<div class="gear gear3"></div>
 
-    <!-- ============================================================
-    MODAL
-    ============================================================ -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-box">
-            <span class="modal-icon">🎭</span>
-            <h3>Link Twibbon</h3>
-            <p id="modalMessage">Link Twibbon Akan Segera Tersedia</p>
-            <button class="modal-close" id="modalCloseBtn">Tutup</button>
-        </div>
-    </div>
+<div class="particles" id="particles"></div>
 
-    <!-- ============================================================
-    MAIN WRAPPER
-    ============================================================ -->
-    <div class="main-wrapper">
+<section class="hero">
 
-        <!-- ===== HERO ===== -->
-        <section id="hero">
+<div class="hero-content">
 
-            <!-- TOP ORNAMEN -->
-            <div class="hero-top">
-                <span>@esmanrogbt_official</span>
-                <span class="divider"></span>
-                <span>@rakadipo_scout</span>
-                <span class="divider"></span>
-                <span>PRADIPA</span>
-            </div>
+<div class="topline">
+DEWAN AMBALAN RAKADIPO
+</div>
 
-            <!-- FRAME -->
-            <div class="frame-wrapper">
+<h1 class="main-title">
+PTA 2026
+</h1>
 
-                <!-- KOMPAS / TOPENG -->
-                <div class="compass-top">
-                    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#f0d68a;stop-opacity:1" />
-                                <stop offset="40%" style="stop-color:#c9a84c;stop-opacity:1" />
-                                <stop offset="80%" style="stop-color:#a07d32;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#7a5a1a;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="compassGlow">
-                                <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#c9a84c" flood-opacity="0.25"/>
-                            </filter>
-                        </defs>
-                        <!-- lingkaran kompas -->
-                        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#compassGrad)" stroke-width="3" opacity="0.6" filter="url(#compassGlow)"/>
-                        <circle cx="60" cy="60" r="40" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.2"/>
-                        <circle cx="60" cy="60" r="28" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.15"/>
-                        <!-- jarum kompas -->
-                        <polygon points="60,20 56,36 64,36" fill="#f0d68a" opacity="0.7"/>
-                        <polygon points="60,100 56,84 64,84" fill="#7a5a1a" opacity="0.5"/>
-                        <polygon points="20,60 36,56 36,64" fill="#c9a84c" opacity="0.4"/>
-                        <polygon points="100,60 84,56 84,64" fill="#c9a84c" opacity="0.4"/>
-                        <circle cx="60" cy="60" r="6" fill="#f0d68a" opacity="0.5"/>
-                        <!-- ornamen aksen -->
-                        <path d="M60,10 L58,6 L62,6 Z" fill="#f0d68a" opacity="0.3"/>
-                        <path d="M60,110 L58,114 L62,114 Z" fill="#f0d68a" opacity="0.3"/>
-                        <path d="M10,60 L6,58 L6,62 Z" fill="#f0d68a" opacity="0.3"/>
-                        <path d="M110,60 L114,58 L114,62 Z" fill="#f0d68a" opacity="0.3"/>
-                    </svg>
-                </div>
+<div class="subtitle">
+Prajipa • Pramuka Berjiwa Disiplin & Berkarya
+</div>
 
-                <!-- ORNAMEN SUDUT -->
-                <div class="frame-ornament tl">
-                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
-                </div>
-                <div class="frame-ornament tr">
-                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
-                </div>
-                <div class="frame-ornament bl">
-                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
-                </div>
-                <div class="frame-ornament br">
-                    <svg viewBox="0 0 30 30"><path d="M2,2 L14,2 L14,5 L9,5 L9,10 L6,10 L6,5 L2,5 Z" fill="#c9a84c" opacity="0.5"/><circle cx="4" cy="4" r="2" fill="#c9a84c" opacity="0.2"/></svg>
-                </div>
+<div class="date">
+16 JULI 2026 — 17 JULI 2026
+</div>
 
-                <!-- BINGKAI OVAL -->
-                <div class="frame-oval">
-                    <div class="frame-content">
-                        <div class="pta-title">PTA 2026</div>
-                        <div class="pta-year">✦ 2026 ✦</div>
-                        <div class="tagline">PRAJIPA • PRAMUKA BERJIWA DISIPLIN &amp; BERKARYA</div>
-                        <div class="ready-text">ARE YOU <span>READY</span>?</div>
-                        <div class="date-hero">16 JULI 2026 — 17 JULI 2026</div>
-                    </div>
-                </div>
+<div class="ready">
+ARE YOU READY?
+</div>
 
-            </div>
+<a href="#menu" class="enter-btn">
+MASUK
+</a>
 
-            <!-- PITA MERAH -->
-            <div class="ribbon-container">
-                <svg class="ribbon-svg" viewBox="0 0 600 50" preserveAspectRatio="xMidYMid meet">
-                    <defs>
-                        <linearGradient id="ribbonGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#5a1515;stop-opacity:0.3" />
-                            <stop offset="20%" style="stop-color:#8b1a1a;stop-opacity:0.6" />
-                            <stop offset="50%" style="stop-color:#b33a3a;stop-opacity:0.8" />
-                            <stop offset="80%" style="stop-color:#8b1a1a;stop-opacity:0.6" />
-                            <stop offset="100%" style="stop-color:#5a1515;stop-opacity:0.3" />
-                        </linearGradient>
-                        <filter id="ribbonShadow2">
-                            <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#5a1515" flood-opacity="0.25"/>
-                        </filter>
-                    </defs>
-                    <path d="M0,25 C80,0 160,50 240,25 C320,0 400,50 480,25 C540,10 580,18 600,25
-                    L600,35 C580,28 540,20 480,35 C400,60 320,10 240,35 C160,60 80,10 0,35 Z"
-                    fill="url(#ribbonGrad2)" filter="url(#ribbonShadow2)" opacity="0.8"/>
-                    <path d="M0,27 C80,2 160,52 240,27 C320,2 400,52 480,27 C540,12 580,20 600,27"
-                    fill="none" stroke="#cc4444" stroke-width="1.5" opacity="0.12"/>
-                </svg>
-            </div>
+</div>
 
-            <!-- ENTER BUTTON -->
-            <button class="enter-btn" id="enterBtn">Masuk ke Menu</button>
+</section>
 
-        </section>
+<section class="section" id="menu">
 
-        <!-- ===== MENU ===== -->
-        <section id="menu-section">
-            <div class="menu-grid">
+<h2 class="section-title">
+Menu Utama
+</h2>
 
-                <div class="menu-card" data-action="example">
-                    <div class="card-glow"></div>
-                    <span class="icon">🎭</span>
-                    <h3>CONTOH TWIBBON</h3>
-                    <p>Lihat contoh hasil Twibbon PTA 2026</p>
-                </div>
+<div class="menu-wrap">
 
-                <div class="menu-card" data-action="tutorial">
-                    <div class="card-glow"></div>
-                    <span class="icon">📖</span>
-                    <h3>TUTORIAL PASANG</h3>
-                    <p>Panduan memasang Twibbon dengan mudah</p>
-                </div>
+<div
+class="menu-card"
+onclick="window.open('https://www.instagram.com/p/DaxsOwiEuh-/?igsh=MXgwcTNreGx2ZGlwNw==','_blank')"
+>
+<div class="menu-icon">🎭</div>
+<div class="menu-title">Contoh Twibbon</div>
+<div class="menu-desc">
+Lihat preview twibbon resmi PTA 2026 melalui Instagram.
+</div>
+</div>
 
-                <div class="menu-card" data-action="link">
-                    <div class="card-glow"></div>
-                    <span class="icon">🔗</span>
-                    <h3>LINK TWIBBON</h3>
-                    <p>Dapatkan link Twibbon resmi PTA 2026</p>
-                </div>
+<div
+class="menu-card"
+onclick="window.open('https://www.instagram.com/reel/DaxslffSy0q/?igsh=MjM3OHZxY3VlbQ==','_blank')"
+>
+<div class="menu-icon">📖</div>
+<div class="menu-title">Tutorial Pasang Twibbon</div>
+<div class="menu-desc">
+Panduan pemasangan twibbon langkah demi langkah.
+</div>
+</div>
 
-            </div>
-        </section>
+<div
+class="menu-card"
+onclick="window.open('https://drive.google.com/drive/folders/1hLvxmiOniFdQCJYIh36NaxTpZ1Uy3BI-?usp=sharing','_blank')"
+>
+<div class="menu-icon">🔗</div>
+<div class="menu-title">Link Twibbon</div>
+<div class="menu-desc">
+Akses seluruh file twibbon resmi PTA 2026.
+</div>
+</div>
 
-        <!-- ===== CONTACT ===== -->
-        <section id="contact-section">
-            <div class="contact-card">
-                <div class="contact-title">🎭 Mengalami Kendala?</div>
-                <div class="contact-sub">
-                    Jika mengalami kendala dalam pemasangan Twibbon PTA 2026<br>
-                    silakan hubungi panitia melalui kontak berikut.
-                </div>
-                <div class="contact-links">
-                    <a href="https://www.instagram.com/rakadipo_scout" target="_blank" class="contact-item">
-                        <span class="icon">📸</span>
-                        <span class="label">@rakadipo_scout</span>
-                    </a>
-                    <a href="https://wa.me/6285855319359" target="_blank" class="btn-wa">
-                        <span class="icon">💬</span>
-                        +62 858-5531-9359
-                    </a>
-                </div>
-            </div>
-        </section>
+</div>
 
-        <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            PTA 2026 • PRADIPA • PRAMUKA BERJIWA DISIPLIN &amp; BERKARYA
-        </div>
+</section>
 
-    </div>
+<section class="section">
 
-    <!-- ============================================================
-    JAVASCRIPT
-    ============================================================ -->
-    <script>
-        (function() {
-            'use strict';
+<h2 class="section-title">
+Mengalami Kendala?
+</h2>
 
-            // CONFIG
-            const CONFIG = {
-                twibbonLink: "#"
-            };
+<div class="contact-box">
 
-            // ============================================================
-            // DUST PARTICLES
-            // ============================================================
-            const canvas = document.getElementById('dust-canvas');
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let particles = [];
-            const PARTICLE_COUNT = 70;
+<div class="contact-text">
+Jika mengalami kendala saat pemasangan Twibbon PTA 2026,
+silakan hubungi panitia melalui kontak berikut.
+</div>
 
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
+<div class="contact-buttons">
 
-            function createParticles() {
-                particles = [];
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        r: Math.random() * 2.2 + 0.6,
-                        dx: (Math.random() - 0.5) * 0.2,
-                        dy: (Math.random() - 0.5) * 0.2 - 0.06,
-                        alpha: Math.random() * 0.4 + 0.12,
-                        pulse: Math.random() * Math.PI * 2
-                    });
-                }
-            }
+<a
+class="contact-btn"
+target="_blank"
+href="https://www.instagram.com/rakadipo_scout"
+>
+Instagram
+</a>
 
-            function drawDust() {
-                ctx.clearRect(0, 0, width, height);
-                for (const p of particles) {
-                    p.x += p.dx;
-                    p.y += p.dy;
-                    p.pulse += 0.006;
-                    if (p.x < -10) p.x = width + 10;
-                    if (p.x > width + 10) p.x = -10;
-                    if (p.y < -10) p.y = height + 10;
-                    if (p.y > height + 10) p.y = -10;
+<a
+class="contact-btn"
+target="_blank"
+href="https://wa.me/6285855319359"
+>
+WhatsApp
+</a>
 
-                    const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.pulse));
-                    const radius = p.r * (0.8 + 0.2 * Math.sin(p.pulse * 0.7));
+</div>
 
-                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2);
-                    grad.addColorStop(0, `rgba(240, 214, 138, ${alpha * 0.5})`);
-                    grad.addColorStop(0.5, `rgba(201, 168, 76, ${alpha * 0.2})`);
-                    grad.addColorStop(1, `rgba(201, 168, 76, 0)`);
+</div>
 
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, radius * 2, 0, Math.PI * 2);
-                    ctx.fillStyle = grad;
-                    ctx.fill();
+</section>
 
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(240, 214, 138, ${alpha * 0.4})`;
-                    ctx.fill();
-                }
-                requestAnimationFrame(drawDust);
-            }
+<footer>
 
-            function initDust() {
-                resizeCanvas();
-                createParticles();
-                drawDust();
-            }
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                createParticles();
-            });
+<div class="footer-title">
+PTA 2026
+</div>
 
-            // ============================================================
-            // SCROLL REVEAL
-            // ============================================================
-            const menuSection = document.getElementById('menu-section');
-            const contactSection = document.getElementById('contact-section');
+<div class="footer-text">
+Dewan Ambalan Rakadipo<br>
+SMAN 1 Rogojampi<br><br>
 
-            const observer = new IntersectionObserver((entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                }
-            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+Instagram : @rakadipo_scout<br>
+WhatsApp : +62 858-5531-9359<br><br>
 
-            if (menuSection) observer.observe(menuSection);
-            if (contactSection) observer.observe(contactSection);
+© 2026 PTA
+</div>
 
-            // ============================================================
-            // ENTER BUTTON
-            // ============================================================
-            const enterBtn = document.getElementById('enterBtn');
-            if (enterBtn) {
-                enterBtn.addEventListener('click', () => {
-                    menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    setTimeout(() => {
-                        menuSection.classList.add('visible');
-                        contactSection.classList.add('visible');
-                    }, 400);
-                });
-            }
+</footer>
 
-            // ============================================================
-            // MODAL
-            // ============================================================
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalMessage = document.getElementById('modalMessage');
-            const modalCloseBtn = document.getElementById('modalCloseBtn');
+<script>
 
-            function showModal(msg) {
-                modalMessage.textContent = msg || 'Link Twibbon Akan Segera Tersedia';
-                modalOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+/* loading */
 
-            function hideModal() {
-                modalOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+window.addEventListener("load",()=>{
 
-            modalCloseBtn.addEventListener('click', hideModal);
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) hideModal();
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') hideModal();
-            });
+setTimeout(()=>{
 
-            // ============================================================
-            // MENU CARDS
-            // ============================================================
-            document.querySelectorAll('.menu-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const action = this.dataset.action;
-                    if (action === 'example') {
-                        window.open(
-                            'https://www.instagram.com/p/DaxsOwiEuh-/?igsh=MXgwcTNreGx2ZGlwNw==',
-                            '_blank'
-                        );
-                    } else if (action === 'tutorial') {
-                        window.open(
-                            'https://www.instagram.com/reel/DaxslffSy0q/?igsh=MjM3OHZxY3VlbQ==',
-                            '_blank'
-                        );
-                    } else if (action === 'link') {
-                        const link = CONFIG.twibbonLink;
-                        if (link && link !== '#' && link.trim() !== '') {
-                            window.open(link, '_blank');
-                        } else {
-                            showModal('Link Twibbon Akan Segera Tersedia');
-                        }
-                    }
-                });
-            });
+document.getElementById("loader").style.opacity="0";
 
-            // ============================================================
-            // INIT
-            // ============================================================
-            initDust();
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+},1000);
 
-            setTimeout(() => {
-                const rect = menuSection.getBoundingClientRect();
-                if (rect.top < window.innerHeight) menuSection.classList.add('visible');
-                const rect2 = contactSection.getBoundingClientRect();
-                if (rect2.top < window.innerHeight) contactSection.classList.add('visible');
-            }, 500);
+},3500);
 
-            console.log('🎭 PTA 2026 – Vintage Steampunk Theme');
-            console.log('📌 twibbonLink:', CONFIG.twibbonLink);
+});
 
-        })();
-    </script>
+/* particles */
+
+const particles=document.getElementById("particles");
+
+for(let i=0;i<70;i++){
+
+const p=document.createElement("div");
+
+p.classList.add("particle");
+
+p.style.left=Math.random()*100+"%";
+
+p.style.animationDelay=Math.random()*15+"s";
+
+p.style.animationDuration=
+(10+Math.random()*10)+"s";
+
+particles.appendChild(p);
+
+}
+
+</script>
 
 </body>
 </html>
